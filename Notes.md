@@ -15,3 +15,6 @@ This file outlines the initial development of COMP3260 A2.
 - Parity bit selection (every 8th bit)
 - Avalanche Effect (key and plaintext)
 - Decryption
+- Report
+    - 250 word Avalanche discussion
+    - 500 word reflection
