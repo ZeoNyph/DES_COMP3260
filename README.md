@@ -2,15 +2,11 @@
 
 ## Description
 
-This is the repo for yo mama
-foijwfwf
-wefewohfiwufi
-wefouewfoiwufiwf
+This is the repo for COMP3260 A2
 
 ## Authors
-- Mithun wfliwjfiwwjffoiew
+- Mithun Sivanesan
 - Chanelle Velovski
-wegfewfuewffew
 
 ## Start date 
 - 22/04/2025
