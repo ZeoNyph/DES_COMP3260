@@ -5,7 +5,7 @@ Description: This contains the main implementation of the DES algorithm.
 """
 
 import os, sys
-from des import exp, perms, sbox
+from des import ip, exp, perms, sbox
 
 
 p = []
