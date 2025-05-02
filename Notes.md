@@ -18,3 +18,12 @@ This file outlines the initial development of COMP3260 A2.
 - Report
     - 250 word Avalanche discussion
     - 500 word reflection
+
+## Structure 
+
+- main.py (Stores the file and arg parse, as well as core DES method)
+- des (module containing neccessary functions)
+    - \_init_.py (inits module)
+    - exp.py (expansion permutation and inverse of it)
+    - sbox.py (S-boxes)
+    - perms.py (permutations)
