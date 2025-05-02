@@ -5,6 +5,8 @@ Description: This contains the main implementation of the DES algorithm.
 """
 
 import os, sys
+from des import exp, perms, sbox
+
 
 p = []
 k = []
@@ -13,6 +15,9 @@ c = []
 def main():
     if len(sys.argv) <= 2:
         print ("DES Encryption\nUsage: main.py [OPTIONS] [FILEPATH]\nOptions:\n-e: Encrypt\n-d: Decrypt")
+        exp.expansion_permutation()
+        perms.permutation()
+        sbox.sboxFunction() 
         exit(1)
     else:
         match sys.argv[1]:
