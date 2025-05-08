@@ -4,41 +4,69 @@ Authors: Mithun Sivanesan (C3403606), Chanelle Velovski (C3431376)
 Description: This contains the main implementation of the DES algorithm.
 """
 
-import os, sys
+import os
+import sys
+from des import ip, exp, perms, sbox
+
 
 p = []
 k = []
 c = []
 
+
 def main():
+    """
+    Main method for the DES encryption program.
+    Handles argument parsing and uses file_parse() to handle file parsing.
+    """
     if len(sys.argv) <= 2:
-        print ("DES Encryption\nUsage: main.py [OPTIONS] [FILEPATH]\nOptions:\n-e: Encrypt\n-d: Decrypt")
-        exit(1)
+        print("Usage: main.py [OPTIONS] [FILEPATH]\nOptions:\n-e: Encrypt\n-d: Decrypt")
+        exp.expansion_permutation()
+        perms.permutation()
+        sbox.sboxFunction()
+        sys.exit(1)
     else:
         match sys.argv[1]:
-            case '-e':
+            case "-e":
                 print(f"Encrypting {sys.argv[2]}")
                 if file_parse(sys.argv[2], True) == -1:
-                    exit(1)
+                    sys.exit(1)
                 print(f"{p}{k}")
-            case '-d':
+                out = ip.initial_permutation(p[0])
+                string = ""
+                for i, value in out:
+                    string = string + value
+                print(f"{string}")
+            case "-d":
                 print(f"Decrypting {sys.argv[2]}")
                 if file_parse(sys.argv[2], False) == -1:
-                    exit(1)
+                    sys.exit(1)
                 print(f"{c}{k}")
             case _:
                 print(f"Unknown command {sys.argv[1]}. Exiting...")
-                exit(1)
-    exit(0)
+                sys.exit(1)
+    sys.exit(0)
 
-def file_parse(filepath: str, isEncrypt: bool) -> int:
-    global p, k, c
+
+def file_parse(filepath: str, is_encrypt: bool) -> int:
+    """
+    Parses file for gathering input for DES encryption and/or decryption.
+
+    Encryption input:
+    PLAINTEXT
+    AVALANCHE PLAINTEXT
+    KEY
+    AVALANCHE KEY
+
+    Decryption input:
+    CIPHERTEXT
+    KEY
+    """
     if not os.path.exists(filepath):
         print("File not found. Exiting...")
         return -1
-    else:
-        file = open(file=filepath)
-        if isEncrypt:
+    with open(file=filepath, encoding="utf-8") as file:
+        if is_encrypt:
             p.append(file.readline().strip())
             p.append(file.readline().strip())
             k.append(file.readline().strip())
@@ -66,7 +94,7 @@ def file_parse(filepath: str, isEncrypt: bool) -> int:
                 return -1
         file.close()
     return 0
-    
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     main()
