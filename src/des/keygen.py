@@ -48,3 +48,34 @@ def key_rotate(cd_pair: list, round_no: int) -> list:
             new_cd_pair.insert(0, cd_pair[0][i])
             new_cd_pair.insert(0, cd_pair[1][i])
     return new_cd_pair
+
+
+def round_key_permutation(cd_pair: list) -> str:
+    """
+    Performs PC2 (Permutation Choice 2) on Ci and Di to give out a round key.
+    """
+    # fmt: off
+    rk_table = [14, 17, 11, 24, 1, 5, 3, 28,
+                 15, 6, 21, 10, 23, 19, 12, 4,
+                 26, 8, 16, 7, 27, 20, 13, 2,
+                 41, 52, 31, 37, 47, 55, 30, 40,
+                 51, 45, 33, 48, 44, 49, 39, 56,
+                 34, 53, 46, 42, 50, 36, 29, 32]
+    # fmt: on
+    init_bits = cd_pair[0] + cd_pair[1]
+    round_key = ""
+    for i in range(48):
+        round_key = round_key + str(init_bits[rk_table[i] - 1])
+    return round_key
+
+
+def key_generation(input_key: str) -> list:
+    """
+    Generates 16 round keys for use in DES.
+    """
+    cd_pair = key_init(input_key)
+    keys = []
+    for i in range(16):
+        cd_pair = key_rotate(cd_pair, i)
+        keys.append(round_key_permutation(cd_pair))
+    return keys
