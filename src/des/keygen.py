@@ -3,6 +3,7 @@ Round key generation for the DES module.
 
 Authors:
 Mithun Sivanesan (c3403606)
+Chanelle Velovski (c3431376)
 """
 
 
@@ -26,3 +27,12 @@ def key_init(input_key: str) -> list:
         cd_pair[0].append(input_key[c_table[i] - 1])
         cd_pair[1].append(input_key[d_table[i] - 1])
     return cd_pair
+
+
+def key_rotate(cd_pair: list, round_no: int) -> list:
+    """
+    Performs left rotation of Ci and Di.
+
+    Rotates by 1 bit if round 1, 2, 9, or 16, otherwise 2
+    """
+    return None
