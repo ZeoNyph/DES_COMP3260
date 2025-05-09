@@ -22,6 +22,9 @@ def key_init(input_key: str) -> list:
                21, 13, 5, 28, 20, 12, 4]
     # fmt: on
 
+    if len(input_key) != 64:
+        raise ValueError("KEY LENGTH MUST BE 64 BITS")
+
     cd_pair = [[], []]
     for i in range(len(28)):
         cd_pair[0].append(input_key[c_table[i] - 1])
@@ -35,4 +38,13 @@ def key_rotate(cd_pair: list, round_no: int) -> list:
 
     Rotates by 1 bit if round 1, 2, 9, or 16, otherwise 2
     """
-    return None
+    shift_no = 1 if round_no in [1, 2, 9, 16] else 2
+    new_cd_pair = [[], []]
+    for i in range(28):
+        if i < (shift_no - 1):
+            new_cd_pair.append(cd_pair[0][i])
+            new_cd_pair.append(cd_pair[1][i])
+        else:
+            new_cd_pair.insert(0, cd_pair[0][i])
+            new_cd_pair.insert(0, cd_pair[1][i])
+    return new_cd_pair
