@@ -32,7 +32,7 @@ def main():
                 if file_parse(sys.argv[2], True) == -1:
                     sys.exit(1)
                 print(f"{p}{k}")
-                out = ip.initial_permutation(p[0])
+                out = ip.initial_permutation(p[0], True)
                 string = ""
                 for i, value in out:
                     string = string + value
