@@ -42,11 +42,11 @@ def key_rotate(cd_pair: list, round_no: int) -> list:
     new_cd_pair = [[], []]
     for i in range(28):
         if i < (shift_no - 1):
-            new_cd_pair.append(cd_pair[0][i])
-            new_cd_pair.append(cd_pair[1][i])
+            new_cd_pair[0].append(cd_pair[0][i])
+            new_cd_pair[1].append(cd_pair[1][i])
         else:
-            new_cd_pair.insert(0, cd_pair[0][i])
-            new_cd_pair.insert(0, cd_pair[1][i])
+            new_cd_pair[0].insert(0, cd_pair[0][i])
+            new_cd_pair[1].insert(0, cd_pair[1][i])
     return new_cd_pair
 
 
