@@ -26,7 +26,7 @@ def key_init(input_key: str) -> list:
         raise ValueError("KEY LENGTH MUST BE 64 BITS")
 
     cd_pair = [[], []]
-    for i in range(len(28)):
+    for i in range(28):
         cd_pair[0].append(input_key[c_table[i] - 1])
         cd_pair[1].append(input_key[d_table[i] - 1])
     return cd_pair
