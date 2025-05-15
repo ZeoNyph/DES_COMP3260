@@ -5,6 +5,7 @@ Authors:
 Chanelle Velovski (c3431376)
 Mithun Sivanesan (c3403606)
 """
+
 # fmt: off
 ip_table = [58, 50, 42, 34, 26, 18, 10, 2,
             60, 52, 44, 36, 28, 20, 12, 4,
@@ -25,19 +26,21 @@ inverse_table = [40, 8, 48, 16, 56, 24, 64, 32,
                  33, 1, 41,  9, 49, 17, 57, 25]
 # fmt: on
 
-def initial_permutation(input_string: str, is_initial_permutation: bool) -> list:
+
+def initial_permutation(
+    input_string: str, is_initial_permutation: bool
+) -> list:
     """
     Given a binary string as input, performs initial permutation to give a permutated output.
     """
-    input_list = []
-    table = []
+    output_list = []
     if is_initial_permutation is True:
         table = ip_table
     else:
         table = inverse_table
-  
+
     for i, value in enumerate(table):
         value = value - 1
         index_val = input_string[value]
-        input_list.append(index_val)
-    return input_list
+        output_list.append(index_val)
+    return output_list

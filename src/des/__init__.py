@@ -6,6 +6,8 @@ This module contains the functions for DES, such as:
 - Expansion permutation (exp)
 - S boxes (sbox)
 - Permutation P (perms)
+- Round key generation (keygen)
 """
 
 from .exp import expansion_permutation
+from .keygen import key_generation
