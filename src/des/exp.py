@@ -17,9 +17,9 @@ expansion_table = [32,  1,  2,  3,  4,  5,
 
 def expansion_permutation(right_half_input: str) -> list :
     """
-    Expansion permutation views the value current value in the expansion 
-    list and matches it with the index in input list.
-    Then it stores the value at that index in the new expansion list.
+    Expansion permutation views the value in the expansion 
+    table and matches it with the corresponding index in right half input list.
+    Then it stores that value in a new expansion list.
     """
     # for i in range(len(right_half_input),0, 4):
     #     first_eight_bits = []
