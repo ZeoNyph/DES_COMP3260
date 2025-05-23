@@ -11,4 +11,4 @@ This module contains the functions for DES, such as:
 
 from .exp import expansion_permutation
 from .keygen import key_generation
-from .utils import xor
+from .utils import utils

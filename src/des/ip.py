@@ -6,7 +6,7 @@ Chanelle Velovski (c3431376)
 Mithun Sivanesan (c3403606)
 """
 
-from des.utils import table_swap
+from .utils import table_swap
 
 # fmt: off
 ip_table = [58, 50, 42, 34, 26, 18, 10, 2,
