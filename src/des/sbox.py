@@ -69,7 +69,9 @@ def sbox_function(xor_output: str) -> str:
     The stored bit values are converted into their integer values. 
     With the integer values we search through the corresponding matrix to 
     find the value at that index.
-    The value retrieved we store 
+    The index value is then converted back into its binary value. 
+    Add padding to ensure the binary value is 4 bits long. 
+    Then we add all the bits together to make a 32 bit string.
     """
     input1 = xor_output[0:5]
     input2 = xor_output[6:11]
@@ -130,7 +132,7 @@ def sbox_function(xor_output: str) -> str:
     sbox_value5 = S5[integer_input5a][integer_input5b]
     input5_binary = format(sbox_value5, 'b')
     s5_bit = padding(input5_binary)
-    
+
     beginning = input6[0]
     end = input6[5]
     input6a = beginning + end
