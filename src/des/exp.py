@@ -6,7 +6,7 @@ Chanelle Velovski (c3431376)
 Mithun Sivanesan (c3403606)
 """
 
-from des.utils import table_swap
+from .utils import table_swap
 
 # fmt: off
 expansion_table = [32,  1,  2,  3,  4,  5,
@@ -26,16 +26,12 @@ def expansion_permutation(right_half_input: str) -> list:
     table and matches it with the corresponding index in right half input list.
     Then it stores that value in a new expansion list.
     """
-    # for i in range(len(right_half_input),0, 4):
-    #     first_eight_bits = []
-    #     first_eight_bits.append(right_half_input[i])
-    #     # for i in range(len(right_half_input),3, 4):
-    #     last_eight_bits = []
-    #     last_eight_bits.append(right_half_input[i])
-    # first_element = first_eight_bits[1:]
-    # first_eight_bits.pop(0)
-
-    # last_element = last_eight_bits[:-1]
-    # last_eight_bits.pop()
-
     return table_swap(expansion_table, right_half_input)
+
+def inverse_expansion_permutation(xor_output: str) -> list:
+    output_list = []
+    for i in range(48):
+        if i % 6 == 0 or i % 6 == 5:
+            continue
+        output_list.append(xor_output[i])
+    return output_list
