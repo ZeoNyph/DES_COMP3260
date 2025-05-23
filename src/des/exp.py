@@ -6,6 +6,9 @@ Chanelle Velovski (c3431376)
 Mithun Sivanesan (c3403606)
 """
 
+from des.utils import table_swap
+
+# fmt: off
 expansion_table = [32,  1,  2,  3,  4,  5,
                     4,  5,  6,  7,  8,  9,
                     8,  9, 10, 11, 12, 13,
@@ -15,9 +18,11 @@ expansion_table = [32,  1,  2,  3,  4,  5,
                    24, 25, 26, 27, 28, 29,
                    28, 29, 30, 31, 32,  1]
 
-def expansion_permutation(right_half_input: str) -> list :
+
+# fmt: on
+def expansion_permutation(right_half_input: str) -> list:
     """
-    Expansion permutation views the value in the expansion 
+    Expansion permutation views the value in the expansion
     table and matches it with the corresponding index in right half input list.
     Then it stores that value in a new expansion list.
     """
@@ -33,9 +38,4 @@ def expansion_permutation(right_half_input: str) -> list :
     # last_element = last_eight_bits[:-1]
     # last_eight_bits.pop()
 
-    expansion_output = []
-    for i, value in enumerate(expansion_table):
-        value = value - 1
-        index_val = right_half_input[value]
-        expansion_output.append(index_val)
-    return expansion_output
+    return table_swap(expansion_table, right_half_input)

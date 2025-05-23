@@ -16,3 +16,17 @@ def xor(block1: str, block2: str) -> str:
         out += "1" if b1 != b2 else "0"
 
     return out
+
+
+def table_swap(table: list, input_str: str) -> list:
+    """
+    A function that creates an output based on a binary string input and a list table.
+    """
+    output_list = []
+    # pylint: disable=unused-variable
+    for i, value in enumerate(table):
+        value = value - 1
+        index_val = input_str[value]
+        output_list.append(index_val)
+    # pylint: enable=unused-variable
+    return output_list
