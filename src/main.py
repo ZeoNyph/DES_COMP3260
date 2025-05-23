@@ -23,7 +23,7 @@ def main():
         print("Usage: main.py [OPTIONS] [FILEPATH]\nOptions:\n-e: Encrypt\n-d: Decrypt")
         exp.expansion_permutation()
         perms.permutation()
-        sbox.sboxFunction()
+        sbox.sbox_function()
         sys.exit(1)
     else:
         match sys.argv[1]:
