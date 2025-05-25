@@ -91,11 +91,24 @@ def file_parse(filepath: str, is_encrypt: bool) -> int:
 
 
 def encrypt(des_type: int, plaintext: str, key: str) -> str:
+    """
+    This function performs DES encryption on a given 64-bit binary string using a 64 bit key.
+
+    As per the assessment spec, the function can do four different types of DES:
+
+    DES0: Standard Feistel function
+        (Expansion permutation, XOR with round key, S-boxes, Permutation P)
+    DES1: No round key XOR
+    DES2: Inverse expansion permutation instead of S-boxes
+    DES3: No permutation P
+    """
     ciphertext = ip.initial_permutation(plaintext, True)
     keys = keygen.key_generation(key)
     for i in range(16):
+        # separate into halves
         lh = "".join(ciphertext[:32])
         rh = "".join(ciphertext[32:])
+        # separate instance of right half to keep original right half for next round
         f_rh = "".join(exp.expansion_permutation(ciphertext[32:]))
         if des_type != 1:
             f_rh = utils.xor(f_rh, keys[i])
@@ -107,6 +120,7 @@ def encrypt(des_type: int, plaintext: str, key: str) -> str:
             f_rh = "".join(perms.permutation(f_rh))
         f_rh = utils.xor(lh, f_rh)
         ciphertext = rh + f_rh
+    # 32-bit swap
     ciphertext = ciphertext[32:] + ciphertext[:32]
     ciphertext = "".join(ip.initial_permutation(ciphertext, False))
     return ciphertext
