@@ -5,7 +5,7 @@ Authors:
 Chanelle Velovski (c3431376)
 Mithun Sivanesan (c3403606)
 """
-
+import random 
 S1 = [[14, 4, 13, 1, 2, 15, 11, 8, 3, 10, 6, 12, 5, 9, 0, 7],
       [0, 15, 7, 4, 14, 2, 13, 1, 10, 6, 12, 11, 9, 5, 3, 8],
       [4, 1, 14, 8, 13, 6, 2, 11, 15, 12, 9, 7, 3, 10, 5, 0],
@@ -73,14 +73,14 @@ def sbox_function(xor_output: str) -> str:
     Add padding to ensure the binary value is 4 bits long. 
     Then we add all the bits together to make a 32 bit string.
     """
-    input1 = xor_output[0:5]
-    input2 = xor_output[6:11]
-    input3 = xor_output[12:17]
-    input4 = xor_output[18:23]
-    input5 = xor_output[24:29]
-    input6 = xor_output[30:35]
-    input7 = xor_output[36:41]
-    input8 = xor_output[42:47]
+    input1 = xor_output[0:6]
+    input2 = xor_output[6:12]
+    input3 = xor_output[12:18]
+    input4 = xor_output[18:24]
+    input5 = xor_output[24:30]
+    input6 = xor_output[30:36]
+    input7 = xor_output[36:42]
+    input8 = xor_output[42:48]
 
     beginning = input1[0]
     end = input1[5]
@@ -163,5 +163,13 @@ def sbox_function(xor_output: str) -> str:
     input8_binary = format(sbox_value8, 'b')
     s8_bit = padding(input8_binary)
 
-    output_bit = s1_bit + s2_bit + s3_bit + s4_bit + s5_bit + s6_bit + s7_bit + s8_bit 
+    output_bit = s1_bit + s2_bit + s3_bit + s4_bit + s5_bit + s6_bit + s7_bit + s8_bit
     return output_bit
+
+
+if __name__ == "__main__":
+    random_bits = ''.join(random.choice('01') for _ in range(48))
+    print("Random 48-bit string:", random_bits)
+
+    first_ip = sbox_function(random_bits)
+    print(first_ip)

@@ -6,7 +6,7 @@ Chanelle Velovski (c3431376)
 Mithun Sivanesan (c3403606)
 """
 
-from .utils import table_swap
+import utils
 
 # fmt: off
 ip_table = [58, 50, 42, 34, 26, 18, 10, 2,
@@ -39,4 +39,4 @@ def initial_permutation(
         table = ip_table
     else:
         table = inverse_table
-    return table_swap(table, input_string)
+    return utils.table_swap(table, input_string)
