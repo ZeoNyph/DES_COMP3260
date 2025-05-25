@@ -1,5 +1,6 @@
 """
 Initial permutation module for the DES package.
+This performs initial permutation and inverse initial permutation. 
 
 Authors:
 Chanelle Velovski (c3431376)
@@ -31,7 +32,9 @@ inverse_table = [40, 8, 48, 16, 56, 24, 64, 32,
 
 def initial_permutation(input_string: str, is_initial_permutation: bool) -> list:
     """
-    Given a binary string as input, performs initial permutation to give a permutated output.
+    Given a binary string as input with True boolean value performs initial permutation.
+    Given a binary string as input with False boolean value performs inverse initial permutation. 
+    The output of either is a permutated list.
     """
     if is_initial_permutation is True:
         table = ip_table

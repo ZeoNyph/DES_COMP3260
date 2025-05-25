@@ -9,7 +9,9 @@ Chanelle Velovski (c3431376)
 
 def key_init(input_key: str) -> list:
     """
-    Initializes key for round key generation
+    Raises ValueError if the key length is not 64 bits.
+    
+    Initializes key for round key generation.
     """
     # fmt: off
     c_table = [57, 49, 41, 33, 25, 17, 9,

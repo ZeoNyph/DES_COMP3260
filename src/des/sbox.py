@@ -82,15 +82,16 @@ def padding(value: str) -> str:
 
 def sbox_function(xor_output: str) -> str:
     """
-    This function takes the input and splits it into 8 parts all including 6 bits each.
-    Each 6 bits have the first and last bits taken and stored and then the middle
-    4 bits are stored separately as well.
-    The stored bit values are converted into their integer values.
-    With the integer values we search through the corresponding matrix to
-    find the value at that index.
-    The index value is then converted back into its binary value.
-    Add padding to ensure the binary value is 4 bits long.
-    Then we add all the bits together to make a 32 bit string.
+    1. This function takes the input and splits it into 8 parts each including 6 bits.
+    2. Each 6 bits have the first and last bits stored in a new variable, 
+            and then the middle 4 bits are stored in a separate variable
+    3. The stored 2 bit and 4 bit values are converted into their integer values.
+    4. Both of the integer values are used to retreive the value at that 
+            index in the corresponding s-box
+    5. The index value is then converted back into its binary value.
+    6. Goes through a padding checker to ensure the binary value is 4 bits long.
+    7. Once points 2-6 are completed for all the 8 inputs we then add all the 
+            bits together to make a 32 bit string output.
     """
     input1 = xor_output[0:6]
     input2 = xor_output[6:12]
@@ -103,13 +104,13 @@ def sbox_function(xor_output: str) -> str:
 
     beginning = input1[0]
     end = input1[5]
-    input1a = beginning + end
-    input1b = input1[1:5]
+    input1a = beginning + end  # taken the first and last bit and added them together
+    input1b = input1[1:5]  # stored the middle four bits
     integer_input1a = string_to_int(input1a)
     integer_input1b = string_to_int(input1b)
-    sbox_value1 = S1[integer_input1a][integer_input1b]
+    sbox_value1 = S1[integer_input1a][integer_input1b] # searched through s-box 1
     input1_binary = format(sbox_value1, "b")
-    s1_bit = padding(input1_binary)
+    s1_bit = padding(input1_binary) 
 
     beginning = input2[0]
     end = input2[5]
@@ -117,7 +118,7 @@ def sbox_function(xor_output: str) -> str:
     input2b = input2[1:5]
     integer_input2a = string_to_int(input2a)
     integer_input2b = string_to_int(input2b)
-    sbox_value2 = S2[integer_input2a][integer_input2b]
+    sbox_value2 = S2[integer_input2a][integer_input2b]# searched through s-box 2
     input2_binary = format(sbox_value2, "b")
     s2_bit = padding(input2_binary)
 
@@ -127,7 +128,7 @@ def sbox_function(xor_output: str) -> str:
     input3b = input3[1:5]
     integer_input3a = string_to_int(input3a)
     integer_input3b = string_to_int(input3b)
-    sbox_value3 = S3[integer_input3a][integer_input3b]
+    sbox_value3 = S3[integer_input3a][integer_input3b] # searched through s-box 3
     input3_binary = format(sbox_value3, "b")
     s3_bit = padding(input3_binary)
 
@@ -137,7 +138,7 @@ def sbox_function(xor_output: str) -> str:
     input4b = input4[1:5]
     integer_input4a = string_to_int(input4a)
     integer_input4b = string_to_int(input4b)
-    sbox_value4 = S4[integer_input4a][integer_input4b]
+    sbox_value4 = S4[integer_input4a][integer_input4b] # searched through s-box 4
     input4_binary = format(sbox_value4, "b")
     s4_bit = padding(input4_binary)
 
@@ -147,7 +148,7 @@ def sbox_function(xor_output: str) -> str:
     input5b = input5[1:5]
     integer_input5a = string_to_int(input5a)
     integer_input5b = string_to_int(input5b)
-    sbox_value5 = S5[integer_input5a][integer_input5b]
+    sbox_value5 = S5[integer_input5a][integer_input5b] # searched through s-box 5
     input5_binary = format(sbox_value5, "b")
     s5_bit = padding(input5_binary)
 
@@ -157,7 +158,7 @@ def sbox_function(xor_output: str) -> str:
     input6b = input6[1:5]
     integer_input6a = string_to_int(input6a)
     integer_input6b = string_to_int(input6b)
-    sbox_value6 = S6[integer_input6a][integer_input6b]
+    sbox_value6 = S6[integer_input6a][integer_input6b] # searched through s-box 6
     input6_binary = format(sbox_value6, "b")
     s6_bit = padding(input6_binary)
 
@@ -167,7 +168,7 @@ def sbox_function(xor_output: str) -> str:
     input7b = input7[1:5]
     integer_input7a = string_to_int(input7a)
     integer_input7b = string_to_int(input7b)
-    sbox_value7 = S7[integer_input7a][integer_input7b]
+    sbox_value7 = S7[integer_input7a][integer_input7b] # searched through s-box 7
     input7_binary = format(sbox_value7, "b")
     s7_bit = padding(input7_binary)
 
@@ -177,7 +178,7 @@ def sbox_function(xor_output: str) -> str:
     input8b = input8[1:5]
     integer_input8a = string_to_int(input8a)
     integer_input8b = string_to_int(input8b)
-    sbox_value8 = S8[integer_input8a][integer_input8b]
+    sbox_value8 = S8[integer_input8a][integer_input8b] # searched through s-box 8
     input8_binary = format(sbox_value8, "b")
     s8_bit = padding(input8_binary)
 

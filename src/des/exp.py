@@ -22,13 +22,17 @@ expansion_table = [32,  1,  2,  3,  4,  5,
 # fmt: on
 def expansion_permutation(right_half_input: str) -> list:
     """
-    Expansion permutation views the value in the expansion
-    table and matches it with the corresponding index in right half input list.
-    Then it stores that value in a new expansion list.
+    Expansion permutation adds extra values into the list. 
+    It gets the value in the expansion table and matches it with the corresponding 
+    index in right half input list. Then it stores that value in a new expansion list.
     """
     return table_swap(expansion_table, right_half_input)
 
 def inverse_expansion_permutation(xor_output: str) -> list:
+    """
+    Inverse expansion permutation discards all the values at the index which is 
+    divisible by 6 and where the modulo is equal to 5.
+    """
     output_list = []
     for i in range(48):
         if i % 6 == 0 or i % 6 == 5:
