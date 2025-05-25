@@ -6,6 +6,7 @@ Description: This contains the main implementation of the DES algorithm.
 
 import os
 import sys
+import time
 from des import ip, exp, perms, sbox, keygen
 from des.utils import utils
 
@@ -29,8 +30,11 @@ def main():
                 print(f"Encrypting {sys.argv[2]}")
                 if file_parse(sys.argv[2], True) == -1:
                     sys.exit(1)
-                print(p[0])
-                print(encrypt(0, p[0], k[0]))
+                start = time.perf_counter()
+                encrypt(0, p[0], k[0])
+                end = time.perf_counter()
+                output(end - start)
+                print("Output saved to ./output.txt")
             case "-d":
                 print(f"Decrypting {sys.argv[2]}")
                 if file_parse(sys.argv[2], False) == -1:
@@ -123,7 +127,26 @@ def encrypt(des_type: int, plaintext: str, key: str) -> str:
     # 32-bit swap
     ciphertext = ciphertext[32:] + ciphertext[:32]
     ciphertext = "".join(ip.initial_permutation(ciphertext, False))
-    return ciphertext
+    c.append(ciphertext)
+
+
+def output(running_time: float):
+    """
+    Creates output.txt, which contains the information as per the assesment spec.
+    """
+
+    if os.path.exists("output.txt"):
+        os.remove("output.txt")
+
+    with open("output.txt", "x", encoding="utf-8") as file:
+        file.write(
+            "Avalanche Demonstration\n"
+            f"Plaintext P   : {p[0]}\n"
+            f"Plaintext P'  : {p[1]}\n"
+            f"Key K         : {k[0]}\n"
+            f"Key K'        : {k[1]}\n"
+            f"Total running time: {running_time:.3f} seconds\n"
+        )
 
 
 if __name__ == "__main__":
