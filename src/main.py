@@ -13,7 +13,7 @@ from des.utils import utils
 
 p = []
 k = []
-c = []
+c = [[], [], [], []]
 
 
 def main():
@@ -31,7 +31,10 @@ def main():
                 if file_parse(sys.argv[2], True) == -1:
                     sys.exit(1)
                 start = time.perf_counter()
-                encrypt(0, p[0], k[0])
+                for i in range(4):
+                    encrypt(i, p[0], k[0])
+                    encrypt(i, p[1], k[0])
+                    encrypt(i, p[0], k[1])
                 end = time.perf_counter()
                 output(end - start)
                 print("Output saved to ./output.txt")
@@ -69,24 +72,12 @@ def file_parse(filepath: str, is_encrypt: bool) -> int:
             p.append(file.readline().strip())
             k.append(file.readline().strip())
             k.append(file.readline().strip())
-            for x in p[:]:
-                if not x.strip():
-                    p.remove(x)
-            for x in k[:]:
-                if not x.strip():
-                    k.remove(x)
             if len(p) != 2 or len(k) != 2:
                 print("File does not contain all the required values. Exiting...")
                 return -1
         else:
             c.append(file.readline().strip())
             k.append(file.readline().strip())
-            for x in c[:]:
-                if not x.strip():
-                    c.remove(x)
-            for x in k[:]:
-                if not x.strip():
-                    k.remove(x)
             if len(c) != 1 or len(k) != 1:
                 print("File does not contain all the required values. Exiting...")
                 return -1
@@ -127,7 +118,7 @@ def encrypt(des_type: int, plaintext: str, key: str) -> str:
     # 32-bit swap
     ciphertext = ciphertext[32:] + ciphertext[:32]
     ciphertext = "".join(ip.initial_permutation(ciphertext, False))
-    c.append(ciphertext)
+    c[des_type].append(ciphertext)
 
 
 def output(running_time: float):
@@ -145,7 +136,13 @@ def output(running_time: float):
             f"Plaintext P'  : {p[1]}\n"
             f"Key K         : {k[0]}\n"
             f"Key K'        : {k[1]}\n"
-            f"Total running time: {running_time:.3f} seconds\n"
+            f"Total running time: {running_time:.3f} seconds\n\n"
+            f"P and P` under K\n"
+            f"Ciphertext C : {c[0][0]}\n"
+            f"Ciphertext C`: {c[0][1]}\n\n"
+            f"P under K and K`\n"
+            f"Ciphertext C : {c[0][0]}\n"
+            f"Ciphertext C`: {c[0][2]}\n\n"
         )
 
 
