@@ -6,7 +6,7 @@ Chanelle Velovski (c3431376)
 Mithun Sivanesan (c3403606)
 """
 
-import utils
+from .utils.utils import table_swap
 
 # fmt: off
 ip_table = [58, 50, 42, 34, 26, 18, 10, 2,
@@ -29,9 +29,7 @@ inverse_table = [40, 8, 48, 16, 56, 24, 64, 32,
 # fmt: on
 
 
-def initial_permutation(
-    input_string: str, is_initial_permutation: bool
-) -> list:
+def initial_permutation(input_string: str, is_initial_permutation: bool) -> list:
     """
     Given a binary string as input, performs initial permutation to give a permutated output.
     """
@@ -39,4 +37,4 @@ def initial_permutation(
         table = ip_table
     else:
         table = inverse_table
-    return utils.table_swap(table, input_string)
+    return table_swap(table, input_string)

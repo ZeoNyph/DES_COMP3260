@@ -38,15 +38,10 @@ def key_rotate(cd_pair: list, round_no: int) -> list:
 
     Rotates by 1 bit if round 1, 2, 9, or 16, otherwise 2
     """
-    shift_no = 1 if round_no in [1, 2, 9, 16] else 2
+    shift_no = 1 if round_no in [0, 1, 8, 15] else 2
     new_cd_pair = [[], []]
-    for i in range(28):
-        if i < (shift_no - 1):
-            new_cd_pair[0].append(cd_pair[0][i])
-            new_cd_pair[1].append(cd_pair[1][i])
-        else:
-            new_cd_pair[0].insert(0, cd_pair[0][i])
-            new_cd_pair[1].insert(0, cd_pair[1][i])
+    new_cd_pair[0] = cd_pair[0][shift_no:] + cd_pair[0][0:shift_no]
+    new_cd_pair[1] = cd_pair[1][shift_no:] + cd_pair[1][0:shift_no]
     return new_cd_pair
 
 
