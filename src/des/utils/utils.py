@@ -1,7 +1,9 @@
 """
 Utility functions used by the DES module.
 
-Created by: Mithun Sivanesan (c3403606)
+Created by: 
+Mithun Sivanesan (c3403606)
+Chanelle Velovski (c3431376)
 """
 
 

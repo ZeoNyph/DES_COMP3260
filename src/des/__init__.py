@@ -7,6 +7,10 @@ This module contains the functions for DES, such as:
 - S boxes (sbox)
 - Permutation P (perms)
 - Round key generation (keygen)
+
+Created by: 
+Mithun Sivanesan (c3403606)
+Chanelle Velovski (c3431376)
 """
 
 from .exp import expansion_permutation
