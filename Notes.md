@@ -7,12 +7,12 @@ This file outlines the initial development of COMP3260 A2.
 - I/O handling (file parsing, arguments, printing output)
 - ~~Round key generation~~
 - DES F function (do for 16 rounds):
-    - Expansion permutation
-    - XOR with round key
-    - S boxes
-    - Permutation P
+    - ~~Expansion permutation~~
+    - ~~XOR with round key~~
+    - ~~S boxes~~
+    - ~~Permutation P~~
 - ~~IP (Initial Permutation) and its inverse~~
-- Input padding (if needed)
+- ~~Input padding (if needed)~~
 - Avalanche Effect (key and plaintext)
 - Decryption
 - Report
