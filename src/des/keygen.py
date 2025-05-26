@@ -10,7 +10,7 @@ Chanelle Velovski (c3431376)
 def key_init(input_key: str) -> list:
     """
     Raises ValueError if the key length is not 64 bits.
-    
+
     Initializes key for round key generation.
     """
     # fmt: off
@@ -25,7 +25,15 @@ def key_init(input_key: str) -> list:
     # fmt: on
 
     if len(input_key) != 64:
-        raise ValueError("KEY LENGTH MUST BE 64 BITS")
+        raise ValueError("The provided key must be 64 bits in length.")
+
+    # parity check (odd parity)
+    for i in range(8):
+        key_byte = input_key[
+            i * 8 : min(63, (i + 1) * 8) - 1
+        ]  # prevents out of bounds exception when fetching substring
+        if key_byte.count("1") % 2 == input_key[min(63, (i + 1) * 8)]:
+            raise ValueError("Parity error detected")
 
     cd_pair = [[], []]
     for i in range(28):
