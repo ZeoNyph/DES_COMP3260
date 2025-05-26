@@ -157,7 +157,11 @@ def output(running_time: float):
             f"P under K and K`\n"
             f"Ciphertext C : {c[0][0]}\n"
             f"Ciphertext C`: {c[0][2]}\n\n"
+            f"Round\t\t\tDES0\tDES1\tDES2\tDES3\n"
         )
+        for i in range(17):
+            file.write(f"\t{i}\t\t\t {avalanche[0][1][i]}\t\t {avalanche[1][1][i]}\t\t {avalanche[2][1][i]}\t\t {avalanche[3][1][i]}\n")
+       
 
 def avalanche_comparision(p1: str, p2: str) -> int:
     """
