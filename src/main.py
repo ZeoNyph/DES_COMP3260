@@ -14,6 +14,8 @@ from des.utils import utils
 p = []
 k = []
 c = [[], [], [], []]
+round_c = [[[], [], []], [[], [], []], [[], [], []], [[], [], []]]
+avalanche = [[[], []], [[], []], [[], []], [[], []]]
 
 
 def main():
@@ -32,9 +34,15 @@ def main():
                     sys.exit(1)
                 start = time.perf_counter()
                 for i in range(4):
-                    encrypt(i, p[0], k[0])
-                    encrypt(i, p[1], k[0])
-                    encrypt(i, p[0], k[1])
+                    encrypt(i, p[0], k[0], 0)
+                    encrypt(i, p[1], k[0], 1)
+                    encrypt(i, p[0], k[1], 2)
+                for i in range(4):
+                    avalanche[i][0].append(avalanche_comparision(p[0], p[1]))
+                    avalanche[i][1].append(avalanche_comparision(p[0], p[0]))
+                    for j in range(16):
+                        avalanche[i][0].append(avalanche_comparision(round_c[i][0][j], round_c[i][1][j]))
+                        avalanche[i][1].append(avalanche_comparision(round_c[i][0][j], round_c[i][2][j]))
                 end = time.perf_counter()
                 output(end - start)
                 print("Output saved to ./output.txt")
@@ -85,7 +93,7 @@ def file_parse(filepath: str, is_encrypt: bool) -> int:
     return 0
 
 
-def encrypt(des_type: int, plaintext: str, key: str) -> str:
+def encrypt(des_type: int, plaintext: str, key: str, ciphertext_type: int) -> str:
     """
     This function performs DES encryption on a given 64-bit binary string using a 64 bit key.
 
@@ -115,6 +123,7 @@ def encrypt(des_type: int, plaintext: str, key: str) -> str:
             f_rh = "".join(perms.permutation(f_rh))
         f_rh = utils.xor(lh, f_rh)
         ciphertext = rh + f_rh
+        round_c[des_type][ciphertext_type].append(ciphertext)
     # 32-bit swap
     ciphertext = ciphertext[32:] + ciphertext[:32]
     ciphertext = "".join(ip.initial_permutation(ciphertext, False))
@@ -140,11 +149,31 @@ def output(running_time: float):
             f"P and P` under K\n"
             f"Ciphertext C : {c[0][0]}\n"
             f"Ciphertext C`: {c[0][1]}\n\n"
+            f"Round\t\t\tDES0\tDES1\tDES2\tDES3\n"
+        )
+        for i in range(17):
+            file.write(f"\t{i}\t\t\t {avalanche[0][0][i]}\t\t {avalanche[1][0][i]}\t\t {avalanche[2][0][i]}\t\t {avalanche[3][0][i]}\n")
+        file.write(
             f"P under K and K`\n"
             f"Ciphertext C : {c[0][0]}\n"
             f"Ciphertext C`: {c[0][2]}\n\n"
         )
 
+def avalanche_comparision(p1: str, p2: str) -> int:
+    """
+    This method compares the original plaintext string with the cipherext string produced after each round.
+    
+    It converts the strings into lists, then loops through the length of the original plaintext.
+    While looping to checks whether the current value in the plaintext and ciphertext does not match. 
+    If it doesn't then it adds one to the counter, otherwise it just continues. 
+    """
+    counter = 0
+    p1_list = list(p1)
+    p2_list = list(p2)
+    for i in range(64):
+        if p1_list[i] != p2_list[i]:
+            counter+=1
+    return counter
 
 if __name__ == "__main__":
     main()
