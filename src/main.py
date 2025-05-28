@@ -62,7 +62,9 @@ def main():
                 print(f"Decrypting {sys.argv[2]}")
                 if file_parse(sys.argv[2], False) == -1:
                     sys.exit(1)
-                print(f"{c}{k}")
+                for i in range(4):
+                    decrypt(i, c[0][0], k[0])
+                print(p[0])
             case _:
                 print(f"Unknown command {sys.argv[1]}. Exiting...")
                 sys.exit(1)
@@ -96,9 +98,9 @@ def file_parse(filepath: str, is_encrypt: bool) -> int:
                 print("File does not contain all the required values. Exiting...")
                 return -1
         else:
-            c.append(file.readline().strip())
+            c[0].append(file.readline().strip())
             k.append(file.readline().strip())
-            if len(c) != 1 or len(k) != 1:
+            if len(c[0]) != 1 or len(k) != 1:
                 print("File does not contain all the required values. Exiting...")
                 return -1
         file.close()
@@ -116,6 +118,11 @@ def encrypt(des_type: int, plaintext: str, key: str, ciphertext_type: int) -> st
     DES1: No round key XOR
     DES2: Inverse expansion permutation instead of S-boxes
     DES3: No permutation P
+
+    Ciphertext type determines the type of avalanche effect being used:
+    0 - regular inputs
+    1 - bit-flipped plaintext
+    2 - bit-flipped key
     """
     ciphertext = ip.initial_permutation(plaintext, True)
     keys = keygen.key_generation(key)
@@ -144,6 +151,44 @@ def encrypt(des_type: int, plaintext: str, key: str, ciphertext_type: int) -> st
         ip.initial_permutation(ciphertext, False)
     )  # IP^-1 at end of round 16
     c[des_type].append(ciphertext)
+
+
+def decrypt(des_type: int, ciphertext: str, key: str):
+    """
+    This function performs DES decryption on a given 64-bit binary string using a 64 bit key.
+
+    As per the assessment spec, the function can do four different types of DES:
+
+    DES0: Standard Feistel function
+        (Expansion permutation, XOR with round key, S-boxes, Permutation P)
+    DES1: No round key XOR
+    DES2: Inverse expansion permutation instead of S-boxes
+    DES3: No permutation P
+    """
+    plaintext = ip.initial_permutation(ciphertext, True)
+    keys = keygen.key_generation(key)
+    for i in range(15, -1, -1):
+        # separate into halves
+        lh = "".join(plaintext[:32])
+        rh = "".join(plaintext[32:])
+        # separate instance of right half to keep original right half for next round
+        f_rh = "".join(exp.expansion_permutation(plaintext[32:]))
+        if des_type != 1:  # skip xor with round key (DES1)
+            f_rh = utils.xor(f_rh, keys[i])
+        if des_type != 2:  # do inv exp if DES2
+            f_rh = sbox.sbox_function(f_rh)
+        else:
+            f_rh = "".join(exp.inverse_expansion_permutation(f_rh))
+        if des_type != 3:  # skip P (DES3)
+            f_rh = "".join(perms.permutation(f_rh))
+        f_rh = utils.xor(lh, f_rh)
+        plaintext = rh + f_rh
+    # 32-bit swap
+    plaintext = plaintext[32:] + plaintext[:32]
+    plaintext = "".join(
+        ip.initial_permutation(plaintext, False)
+    )  # IP^-1 at end of round 16
+    p.append(plaintext)
 
 
 def output(running_time: float, is_encrypt: bool):
