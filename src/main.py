@@ -154,7 +154,7 @@ def output(running_time: float):
         for i in range(17):
             file.write(f"\t{i}\t\t\t {avalanche[0][0][i]}\t\t {avalanche[1][0][i]}\t\t {avalanche[2][0][i]}\t\t {avalanche[3][0][i]}\n")
         file.write(
-            f"P under K and K`\n"
+            f"\nP under K and K`\n"
             f"Ciphertext C : {c[0][0]}\n"
             f"Ciphertext C`: {c[0][2]}\n\n"
             f"Round\t\t\tDES0\tDES1\tDES2\tDES3\n"
