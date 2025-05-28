@@ -33,7 +33,11 @@ def key_init(input_key: str) -> list:
             i * 8 : min(63, (i + 1) * 8) - 1
         ]  # prevents out of bounds exception when fetching substring
         if key_byte.count("1") % 2 == input_key[min(63, (i + 1) * 8)]:
-            raise ValueError("Parity error detected")
+            # Convert the parity bit into an integer then adding 1 to it.
+            # Then we complete modulo 2 of it.
+            # This would get the opposite bit of what it currently is, e.g. if it was 0 now it is 1
+            # Then we convert it back to a string and store it into the input_key
+            input_key[min(63, (i + 1) * 8)] = str(int((input_key[min(63, (i + 1) * 8)]) + 1) % 2)
 
     cd_pair = [[], []]
     for i in range(28):
