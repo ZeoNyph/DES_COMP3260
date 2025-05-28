@@ -13,8 +13,11 @@ from des.utils import utils
 
 p = []
 k = []
+# c[des_type][avalanche_type]
 c = [[], [], [], []]
+# round_c[des_type][avalanche_type][round-1]
 round_c = [[[], [], []], [[], [], []], [[], [], []], [[], [], []]]
+# avalanche[des_type][avalanche_comparison_type]
 avalanche = [[[], []], [[], []], [[], []], [[], []]]
 
 
@@ -37,14 +40,19 @@ def main():
                     encrypt(i, p[0], k[0], 0)
                     encrypt(i, p[1], k[0], 1)
                     encrypt(i, p[0], k[1], 2)
+                # sets up avalanche array for output
                 for i in range(4):
-                    avalanche[i][0].append(avalanche_comparision(p[0], p[1]))
-                    avalanche[i][1].append(avalanche_comparision(p[0], p[0]))
+                    # round 0 plaintext comparison
+                    avalanche[i][0].append(avalanche_comparison(p[0], p[1]))
+                    avalanche[i][1].append(avalanche_comparison(p[0], p[0]))
+                    # DES 16 round comparison
                     for j in range(16):
-                        avalanche[i][0].append(avalanche_comparision(round_c[i][0][j], round_c[i][1][j]))
-                        avalanche[i][1].append(avalanche_comparision(round_c[i][0][j], round_c[i][2][j]))
+                        # comparing P with P' with the same K
+                        avalanche[i][0].append(avalanche_comparison(round_c[i][0][j], round_c[i][1][j]))
+                        # comparing K and K' with the same P
+                        avalanche[i][1].append(avalanche_comparison(round_c[i][0][j], round_c[i][2][j]))
                 end = time.perf_counter()
-                output(end - start)
+                output(end - start, True)
                 print("Output saved to ./output.txt")
             case "-d":
                 print(f"Decrypting {sys.argv[2]}")
@@ -113,24 +121,24 @@ def encrypt(des_type: int, plaintext: str, key: str, ciphertext_type: int) -> st
         rh = "".join(ciphertext[32:])
         # separate instance of right half to keep original right half for next round
         f_rh = "".join(exp.expansion_permutation(ciphertext[32:]))
-        if des_type != 1:
+        if des_type != 1: # skip xor with round key (DES1)
             f_rh = utils.xor(f_rh, keys[i])
-        if des_type != 2:
+        if des_type != 2: # do inv exp if DES2
             f_rh = sbox.sbox_function(f_rh)
         else:
             f_rh = "".join(exp.inverse_expansion_permutation(f_rh))
-        if des_type != 3:
+        if des_type != 3: # skip P (DES3)
             f_rh = "".join(perms.permutation(f_rh))
         f_rh = utils.xor(lh, f_rh)
         ciphertext = rh + f_rh
-        round_c[des_type][ciphertext_type].append(ciphertext)
+        round_c[des_type][ciphertext_type].append(ciphertext) # for avalanche comparison later
     # 32-bit swap
     ciphertext = ciphertext[32:] + ciphertext[:32]
-    ciphertext = "".join(ip.initial_permutation(ciphertext, False))
+    ciphertext = "".join(ip.initial_permutation(ciphertext, False)) # IP^-1 at end of round 16
     c[des_type].append(ciphertext)
 
 
-def output(running_time: float):
+def output(running_time: float, is_encrypt: bool):
     """
     Creates output.txt, which contains the information as per the assesment spec.
     """
@@ -161,14 +169,15 @@ def output(running_time: float):
         )
         for i in range(17):
             file.write(f"\t{i}\t\t\t {avalanche[0][1][i]}\t\t {avalanche[1][1][i]}\t\t {avalanche[2][1][i]}\t\t {avalanche[3][1][i]}\n")
-       
 
-def avalanche_comparision(p1: str, p2: str) -> int:
+def avalanche_comparison(p1: str, p2: str) -> int:
     """
-    This method compares the original plaintext string with the cipherext string produced after each round.
+    This method compares the original plaintext string with the 
+        cipherext string produced after each round.
     
     It converts the strings into lists, then loops through the length of the original plaintext.
-    While looping to checks whether the current value in the plaintext and ciphertext does not match. 
+    While looping to checks whether the current value in the plaintext and ciphertext does 
+        not match. 
     If it doesn't then it adds one to the counter, otherwise it just continues. 
     """
     counter = 0
