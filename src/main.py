@@ -65,7 +65,7 @@ def main():
                 for i in range(4):
                     decrypt(i, c[0][0], k[0])
                 output(0.0, False)
-                print(p[0])
+                print("Output saved to ./output.txt")
             case _:
                 print(f"Unknown command {sys.argv[1]}. Exiting...")
                 sys.exit(1)
