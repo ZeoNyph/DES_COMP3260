@@ -64,6 +64,7 @@ def main():
                     sys.exit(1)
                 for i in range(4):
                     decrypt(i, c[0][0], k[0])
+                output(0.0, False)
                 print(p[0])
             case _:
                 print(f"Unknown command {sys.argv[1]}. Exiting...")
@@ -228,7 +229,14 @@ def output(running_time: float, is_encrypt: bool):
                     f"\t{i}\t\t\t {avalanche[0][1][i]}\t\t {avalanche[1][1][i]}\t\t {avalanche[2][1][i]}\t\t {avalanche[3][1][i]}\n"
                 )
         else:
-            print("DO HERE")
+            file.write("DECRYPTION\n")
+            for i in range(4):
+                file.write(
+                    f"DES{i}\n"
+                    f"Ciphertext C: {c[0][0]}\n"
+                    f"Key K: {k[0]}\n"
+                    f"Plaintext P: {p[i]}\n"
+            )
         file.close()
 
 
@@ -249,7 +257,6 @@ def avalanche_comparison(p1: str, p2: str) -> int:
         if p1_list[i] != p2_list[i]:
             counter += 1
     return counter
-
 
 if __name__ == "__main__":
     main()
